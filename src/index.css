@@ -13,6 +13,10 @@
 	--gray-color: #3a4750;
 	--yellow-color: #f6c90e;
 	--text-color: #eeeeee;
+	--margin: 10px;
+	--padding: 10px;
+	--gap: 10px;
+	--box-shadow: 0 0 10px black;
 }
 
 body {

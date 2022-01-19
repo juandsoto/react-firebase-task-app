@@ -2,12 +2,20 @@ import { ICategory } from '../../assets/data';
 
 import styles from '../../styles/Category.module.css';
 
-const Category = (category: ICategory) => {
-	const { name, backgroundColor } = category;
+interface Props extends ICategory {
+	setCurrentCtg: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const Category = (category: Props) => {
+	const { id, name, backgroundColor, setCurrentCtg } = category;
 	return (
-		<div style={{ backgroundColor }} className={styles.category}>
+		<button
+			onClick={() => setCurrentCtg(id)}
+			style={{ backgroundColor }}
+			className={styles.category}
+		>
 			{name}
-		</div>
+		</button>
 	);
 };
 
