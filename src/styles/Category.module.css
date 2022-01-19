@@ -1,0 +1,10 @@
+.category {
+	min-width: 250px;
+	width: 250px;
+	min-height: 200px;
+	padding: 20px;
+	border-radius: 20px;
+	text-transform: capitalize;
+	text-align: center;
+	box-shadow: 0 0 10px black;
+}

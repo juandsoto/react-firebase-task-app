@@ -1,0 +1,28 @@
+h2 {
+	position: relative;
+	color: var(--yellow-color);
+	margin: 10px;
+}
+
+h2::before {
+	position: absolute;
+	content: '';
+	left: 0;
+	bottom: -4px;
+	width: 30px;
+	height: 2px;
+	background-color: #fff;
+}
+.categoryList {
+	display: flex;
+	padding: 10px;
+	gap: 10px;
+	justify-content: start;
+	align-items: center;
+	overflow-x: scroll;
+	cursor: grab;
+}
+
+.categoryList::-webkit-scrollbar {
+	display: none;
+}
