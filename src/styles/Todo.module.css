@@ -1,7 +1,7 @@
 .wrapper {
 	flex: 1;
 	display: flex;
-	min-width: 350px;
+	flex-basis: 350px;
 	align-items: center;
 }
 
@@ -20,11 +20,15 @@
 
 .title {
 	flex: 4;
+	align-self: flex-start;
+	word-break: break-all;
 }
 
 .status {
 	position: relative;
 	flex: 1;
+	align-self: flex-end;
+
 	background-color: transparent;
 	color: white;
 	border-radius: 20px;
@@ -53,4 +57,14 @@
 	padding: var(--padding);
 	margin-left: -20px;
 	cursor: pointer;
+}
+
+@media screen and (max-width: 390px) {
+	.wrapper {
+		flex: 100%;
+	}
+
+	.todo {
+		flex-direction: column;
+	}
 }

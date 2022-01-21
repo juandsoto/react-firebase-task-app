@@ -1,7 +1,9 @@
+import { useRef, useState } from 'react';
+import { v4 as uuid } from 'uuid';
+
 import Todo from './Todo';
 import { todos as todoList } from '../../assets/data';
 import styles from '../../styles/TodoList.module.css';
-import { useState } from 'react';
 
 interface Props {
 	currentCtg: string;
@@ -12,9 +14,29 @@ const TodoList = (props: Props) => {
 
 	const [todos, setTodos] = useState(todoList);
 	const [filter, setFilter] = useState('all');
+	const formRef = useRef<HTMLFormElement>(null);
+	const newTodoRef = useRef<HTMLInputElement>(null);
 
 	const changeFilter = (e: React.ChangeEvent<HTMLSelectElement>) => {
 		setFilter(e.target.value);
+	};
+
+	const addTodo = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+
+		if (newTodoRef.current?.value === '') return;
+
+		const title = newTodoRef.current?.value!;
+		setTodos(prev => [
+			...prev,
+			{
+				id: uuid(),
+				title,
+				category: currentCtg,
+				status: 'pending'
+			}
+		]);
+		newTodoRef.current!.value = '';
 	};
 
 	return (
@@ -34,14 +56,23 @@ const TodoList = (props: Props) => {
 				</select>
 			</div>
 			{currentCtg !== '0' && (
-				<div className={styles.addTodoContainer}>
+				<form
+					ref={formRef}
+					onSubmit={addTodo}
+					noValidate
+					autoComplete='off'
+					className={styles.addTodoContainer}
+				>
 					<input
+						ref={newTodoRef}
 						className={styles.input}
 						type='text'
 						placeholder='Add new todo...'
 					/>
-					<button className={styles.addTodo}>Add</button>
-				</div>
+					<button type='submit' className={styles.addTodo}>
+						Add
+					</button>
+				</form>
 			)}
 			<div className={styles.todoList}>
 				{todos

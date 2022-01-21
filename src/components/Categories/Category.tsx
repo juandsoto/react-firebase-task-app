@@ -7,8 +7,8 @@ interface Props extends ICategory {
 	backgroundColor: string;
 }
 
-const Category = (category: Props) => {
-	const { id, name, backgroundColor, setCurrentCtg } = category;
+const Category = (props: Props) => {
+	const { id, name, backgroundColor, setCurrentCtg } = props;
 	return (
 		<button
 			onClick={() => setCurrentCtg(id)}

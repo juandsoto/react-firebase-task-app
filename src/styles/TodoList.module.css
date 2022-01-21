@@ -17,7 +17,7 @@
 	flex-direction: row-reverse;
 	flex-wrap: wrap-reverse;
 	justify-content: start;
-	align-items: stretch;
+	align-items: start;
 	gap: var(--gap);
 	margin: var(--margin);
 }

@@ -4,7 +4,7 @@ import './app.css';
 import TodoList from './components/Todos/TodoList';
 import { useState } from 'react';
 const App = () => {
-	const [darkMode, setDarkMode] = useState(false);
+	const [darkMode, setDarkMode] = useState(true);
 	const [currentCtg, setCurrentCtg] = useState('0');
 	return (
 		<div className={`app ${darkMode && 'darkMode'}`}>
