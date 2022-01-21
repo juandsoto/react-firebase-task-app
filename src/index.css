@@ -9,10 +9,10 @@
 }
 
 :root {
-	--main-bg-color: #252c33;
+	--main-bg-color: #eeeee3;
 	--gray-color: #3a4750;
 	--yellow-color: #f6c90e;
-	--text-color: #eeeeee;
+	--text-color: #252c3e;
 	--margin: 10px;
 	--padding: 10px;
 	--gap: 10px;
@@ -22,4 +22,34 @@
 body {
 	font-family: 'Mochiy Pop P One', sans-serif;
 	font-size: 16px;
+}
+
+button {
+	display: block;
+	color: inherit;
+	font: inherit;
+	line-height: normal;
+	border: 0;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+h2 {
+	position: relative;
+	color: var(--yellow-color);
+	margin: var(--margin);
+	text-shadow: 1px 1px 4px black;
+}
+
+h2::before {
+	position: absolute;
+	content: '';
+	left: 0;
+	bottom: -4px;
+	width: 30px;
+	height: 2px;
+	background-color: var(--text-color);
+}
+
+section {
+	margin: var(--margin) 0;
 }

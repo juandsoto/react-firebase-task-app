@@ -1,27 +1,23 @@
-h2 {
-	position: relative;
-	color: var(--yellow-color);
-	margin: var(--margin);
-}
-
-h2::before {
-	position: absolute;
-	content: '';
-	left: 0;
-	bottom: -4px;
-	width: 30px;
-	height: 2px;
-	background-color: #fff;
-}
-
 .app {
 	min-height: 100vh;
 	padding: 0 var(--padding);
 	background-color: var(--main-bg-color);
 	color: var(--text-color);
+	transition: all 0.3s ease-out;
 }
 
 .main {
 	display: flex;
 	flex-direction: column;
+}
+
+.darkMode {
+	--main-bg-color: #252c3e;
+	--text-color: #eeeee3;
+}
+
+@media screen and (min-width: 768px) {
+	.main {
+		margin: 0 4rem;
+	}
 }

@@ -17,7 +17,7 @@
 	width: 2rem;
 	height: 2rem;
 	padding: 4px;
-	background-color: var(--text-color);
+	background-color: white;
 	margin-right: var(--margin);
 	border-radius: 50px;
 	box-shadow: var(--box-shadow);
@@ -33,11 +33,21 @@
 	user-select: none;
 }
 
+.wrapper {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: var(--gap);
+}
+
+.themeMode,
 .profile {
 	width: 3rem;
 	height: 3rem;
 	border-radius: 50px;
 	overflow: hidden;
+	cursor: pointer;
+	background-color: transparent;
 }
 .profile > img {
 	width: 3rem;

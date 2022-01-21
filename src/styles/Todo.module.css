@@ -1,0 +1,56 @@
+.wrapper {
+	flex: 1;
+	display: flex;
+	min-width: 350px;
+	align-items: center;
+}
+
+.todo {
+	flex: 1;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: var(--gap);
+	min-height: 75px;
+	padding: var(--padding);
+	box-shadow: var(--box-shadow);
+	background-color: var(--main-bg-color);
+	z-index: 9;
+}
+
+.title {
+	flex: 4;
+}
+
+.status {
+	position: relative;
+	flex: 1;
+	background-color: transparent;
+	color: white;
+	border-radius: 20px;
+	padding: 4px 10px;
+	text-shadow: 1px 1px 8px black;
+}
+
+.status::before {
+	content: '';
+	position: absolute;
+	width: 25px;
+	height: 25px;
+	top: -8px;
+	left: -8px;
+	background-color: inherit;
+	border-radius: 50px;
+}
+
+.trash {
+	background: #c01616 url(../assets/trash.svg) no-repeat center;
+	width: 70px;
+	height: 70px;
+	border-radius: 50px;
+	border: 1px solid #c01616;
+	box-shadow: var(--box-shadow);
+	padding: var(--padding);
+	margin-left: -20px;
+	cursor: pointer;
+}

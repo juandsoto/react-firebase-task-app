@@ -4,6 +4,7 @@ import styles from '../../styles/Category.module.css';
 
 interface Props extends ICategory {
 	setCurrentCtg: React.Dispatch<React.SetStateAction<string>>;
+	backgroundColor: string;
 }
 
 const Category = (category: Props) => {

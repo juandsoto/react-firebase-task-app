@@ -1,0 +1,48 @@
+.todoHeader {
+	display: flex;
+	justify-content: space-between;
+}
+
+.filter {
+	border: 0;
+	outline: 0;
+	background-color: var(--yellow-color);
+	font: inherit;
+	padding: var(--padding);
+	margin-right: calc(var(--margin) + 50px);
+}
+
+.todoList {
+	display: flex;
+	flex-direction: row-reverse;
+	flex-wrap: wrap-reverse;
+	justify-content: start;
+	align-items: stretch;
+	gap: var(--gap);
+	margin: var(--margin);
+}
+.addTodoContainer {
+	max-width: 500px;
+	display: flex;
+	justify-content: space-between;
+	margin: var(--margin);
+}
+
+.input {
+	flex: 1;
+	padding: var(--padding);
+	border: none;
+	outline: none;
+	background-color: transparent;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+	color: var(--text-color);
+	font-size: 1rem;
+}
+
+.addTodo {
+	background-color: var(--yellow-color);
+	padding: var(--padding);
+	color: black;
+	font-size: 1rem;
+	border-end-end-radius: 20px;
+}
