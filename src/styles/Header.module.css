@@ -45,12 +45,30 @@
 	width: 3rem;
 	height: 3rem;
 	border-radius: 50px;
-	overflow: hidden;
 	cursor: pointer;
 	background-color: transparent;
 }
+
+.profile {
+	position: relative;
+}
+
+.profileInfo {
+	position: absolute;
+	right: 0;
+	top: 125%;
+	width: 16rem;
+	display: flex;
+	flex-direction: column;
+	padding: 0.5rem 0.5rem;
+	color: #fff;
+	background-color: var(--gray-color);
+	z-index: 999;
+}
+
 .profile > img {
 	width: 3rem;
 	object-fit: cover;
 	object-position: center;
+	border-radius: 50px;
 }

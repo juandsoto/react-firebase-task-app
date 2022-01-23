@@ -17,7 +17,7 @@ const Login = () => {
 				const token = credential!.accessToken;
 				setUser(result.user);
 			})
-			.catch(alert);
+			.catch(console.log);
 	};
 
 	return (

@@ -1,6 +1,8 @@
+import { useState } from 'react';
+
 import styles from '../styles/Header.module.css';
 import logo from '../assets/logo.svg';
-import profile from '../assets/profile.jpeg';
+import { useAuth } from '../context/AuthProvider';
 
 interface Props {
 	darkMode: boolean;
@@ -8,7 +10,11 @@ interface Props {
 }
 
 const Header = (props: Props) => {
+	const { user } = useAuth();
+
 	const { darkMode, setDarkMode } = props;
+	const [isProfileOpen, setIsProfileOpen] = useState(false);
+
 	return (
 		<header className={styles.header}>
 			<div className={styles.logo}>
@@ -28,9 +34,20 @@ const Header = (props: Props) => {
 						<img src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAZhJREFUSEu1lYExBEEQRd9FgAgQASJABIgAESACRIAIkAERIAMiQATIQD3VczW3N7s7W267amvm6mb/7/79p3fCyDEZGZ8+gmXgEDgF3K8MTaiL4Ai4CmBxf7J9NU8bwV1kLtAbsAG8ADvVyHGwRHABnEfGVvENPC2KwAwFM3aB58h6YQQCbgOXgJUYNvcL+ADW/yPRGvAe0rhXmhSv0YdjwP5UR94Drahr7gG1z8Pft4BESpeTd5LlBKm5uTz5y0q0GhVYSVXkBEn/1NwmwGY0fWkISU5wDZwAZ4D7UuiyB0ASK7Lqxy7JShLdxGhok0BX2ei97IDVp7BS42+s5ATpDtTacT8SEdCK8vgEdOLcsEuNPAgpqhoZYAIqrWNlKnNzVCQ7SrQ1xI5hba3sUJzeo9IsSpfK1Uok6wvlEtz+zFzGEoGHbJqleqF0io0vhWcFlsCYM0jbuPZF9fRjY1iNlbj62FhN4epZZVFeLTwTfV80M9OSTZfkIH4nBC9K2UeQgMzUxrn6WIUyunbOpVqCvia3/j86wS+UkVUZlM9ZYAAAAABJRU5ErkJggg==' />
 					)}
 				</button>
-				<div className={styles.profile}>
-					<img src={profile} alt='profile image' />
-				</div>
+				{user && (
+					<div
+						className={styles.profile}
+						onClick={() => setIsProfileOpen(prev => !prev)}
+					>
+						<img src={user?.photoURL || ''} alt='profile image' />
+						{isProfileOpen && (
+							<div className={styles.profileInfo}>
+								<p>{user?.displayName}</p>
+								<p>{user?.email}</p>
+							</div>
+						)}
+					</div>
+				)}
 			</div>
 		</header>
 	);

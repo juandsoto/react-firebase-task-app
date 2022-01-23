@@ -10,6 +10,7 @@
 	font: inherit;
 	padding: var(--padding);
 	margin-right: calc(var(--margin) + 50px);
+	cursor: pointer;
 }
 
 .todoList {

@@ -1,24 +1,23 @@
-import { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState } from 'react';
+import User from '../interfaces/user.interface';
 
 interface Props {
 	children: JSX.Element | JSX.Element[];
 }
 
 interface IContext {
-	user: any;
-	setUser: React.Dispatch<React.SetStateAction<any>>;
+	user: User;
+	setUser: (user: User) => void;
 }
 
-const initialState: IContext = {
-	user: null,
-	setUser: () => null
-};
-
-const AuthContext = createContext<IContext>(initialState);
+const AuthContext = createContext<IContext>({} as IContext);
 
 export const AuthProvider = ({ children }: Props) => {
+	const [user, setUser] = useState<User>();
 	return (
-		<AuthContext.Provider value={initialState}>{children}</AuthContext.Provider>
+		<AuthContext.Provider value={{ user: user!, setUser }}>
+			{children}
+		</AuthContext.Provider>
 	);
 };
 
