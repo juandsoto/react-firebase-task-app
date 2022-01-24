@@ -7,7 +7,7 @@ interface Props {
 
 interface IContext {
 	user: User;
-	setUser: (user: User) => void;
+	setUser: (user: User | null) => void;
 }
 
 const AuthContext = createContext<IContext>({} as IContext);
@@ -45,7 +45,7 @@ const DEFAULT_USER = {
 };
 
 export const AuthProvider = ({ children }: Props) => {
-	const [user, setUser] = useState<User>();
+	const [user, setUser] = useState<User | null>(null);
 	return (
 		<AuthContext.Provider value={{ user: user!, setUser }}>
 			{children}

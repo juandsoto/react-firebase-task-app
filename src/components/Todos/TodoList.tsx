@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { collection, addDoc, getDocs } from 'firebase/firestore';
+import { collection, addDoc, getDocs, query, where } from 'firebase/firestore';
 import { v4 as uuid } from 'uuid';
 
 import Todo from './Todo';
@@ -7,6 +7,7 @@ import styles from '../../styles/TodoList.module.css';
 
 import db from '../../config/firebase';
 import ITodo from '../../interfaces/todo.interface';
+import { useAuth } from '../../context/AuthProvider';
 
 interface Props {
 	currentCtg: string;
@@ -20,12 +21,18 @@ const TodoList = (props: Props) => {
 	const formRef = useRef<HTMLFormElement>(null);
 	const newTodoRef = useRef<HTMLInputElement>(null);
 
+	const { user } = useAuth();
+
 	useEffect(() => {
 		const getTodos = async () => {
-			const todosSnapshot = await getDocs(collection(db, 'tasks'));
+			const q = query(
+				collection(db, 'tasks'),
+				where('user_id', '==', user.uid)
+			);
+			const todosSnapshot = await getDocs(q);
 			const todoList: ITodo[] = todosSnapshot.docs.map(doc => {
-				const { title, category, status } = doc.data();
-				return { id: doc.id, title, category, status };
+				const { title, category_id, status, user_id, timestamp } = doc.data();
+				return { id: doc.id, title, category_id, status, user_id, timestamp };
 			});
 			setTodos(todoList);
 		};
@@ -41,25 +48,24 @@ const TodoList = (props: Props) => {
 
 		if (newTodoRef.current?.value === '') return;
 		const title = newTodoRef.current?.value!;
+		const todo: Partial<ITodo> = {
+			title,
+			category_id: currentCtg,
+			status: 'pending',
+			user_id: user.uid,
+			timestamp: new Date()
+		};
 
 		try {
-			const docRef = await addDoc(collection(db, 'tasks'), {
-				title,
-				category: currentCtg,
-				status: 'pending'
-			});
+			const docRef = await addDoc(collection(db, 'tasks'), todo);
 			const newTodo: ITodo = {
 				id: docRef.id,
-				title,
-				category: currentCtg,
-				status: 'pending'
-			};
+				...todo
+			} as ITodo;
 			setTodos(prev => [...prev, newTodo]);
-			console.log('Document written: ', docRef);
 		} catch (err) {
 			console.error('Error adding document: ', err);
 		}
-
 		newTodoRef.current!.value = '';
 	};
 
@@ -101,7 +107,9 @@ const TodoList = (props: Props) => {
 			<div className={styles.todoList}>
 				{todos &&
 					todos
-						.filter(todo => todo.category === currentCtg || currentCtg === '0')
+						.filter(
+							todo => todo.category_id === currentCtg || currentCtg === '0'
+						)
 						.filter(todo => todo.status === filter || filter === 'all')
 						.map(todo => {
 							return <Todo key={todo.id} {...todo}></Todo>;

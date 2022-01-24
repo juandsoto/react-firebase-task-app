@@ -3,6 +3,7 @@ import { useState } from 'react';
 import styles from '../styles/Header.module.css';
 import logo from '../assets/logo.svg';
 import { useAuth } from '../context/AuthProvider';
+import User from '../interfaces/user.interface';
 
 interface Props {
 	darkMode: boolean;
@@ -10,7 +11,7 @@ interface Props {
 }
 
 const Header = (props: Props) => {
-	const { user } = useAuth();
+	const { user, setUser } = useAuth();
 
 	const { darkMode, setDarkMode } = props;
 	const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -44,6 +45,9 @@ const Header = (props: Props) => {
 							<div className={styles.profileInfo}>
 								<p>{user?.displayName}</p>
 								<p>{user?.email}</p>
+								<button className={styles.logout} onClick={() => setUser(null)}>
+									Logout
+								</button>
 							</div>
 						)}
 					</div>

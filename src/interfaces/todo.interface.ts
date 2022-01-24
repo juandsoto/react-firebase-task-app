@@ -1,6 +1,8 @@
 export default interface ITodo {
 	id: string;
 	title: string;
-	category: string;
+	category_id: string;
 	status: 'pending' | 'started' | 'completed';
+	user_id: string;
+	timestamp: Date;
 }

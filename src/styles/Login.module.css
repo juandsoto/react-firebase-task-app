@@ -1,5 +1,5 @@
 .container {
-	height: calc(100vh - 6rem);
+	height: calc(100vh - 12rem);
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -7,7 +7,7 @@
 
 .login {
 	width: 70%;
-	height: 90%;
+	height: 70%;
 	display: flex;
 	flex-direction: column;
 	align-items: center;

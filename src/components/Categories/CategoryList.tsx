@@ -1,10 +1,11 @@
 import styles from '../../styles/CategoryList.module.css';
 
 import Category from './Category';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import db from '../../config/firebase';
-import { addDoc, collection, getDocs } from 'firebase/firestore';
+import { addDoc, collection, getDocs, query, where } from 'firebase/firestore';
 import ICategory from '../../interfaces/category.interface';
+import { useAuth } from '../../context/AuthProvider';
 
 interface Props {
 	setCurrentCtg: React.Dispatch<React.SetStateAction<string>>;
@@ -15,12 +16,18 @@ const CategoryList = (props: Props) => {
 	const formRef = useRef<HTMLFormElement>(null);
 	const newCategoryRef = useRef<HTMLInputElement>(null);
 
+	const { user } = useAuth();
+
 	useEffect(() => {
 		const getCategories = async () => {
-			const categoriesSnapshot = await getDocs(collection(db, 'categories'));
+			const q = query(
+				collection(db, 'categories'),
+				where('user_id', '==', user.uid)
+			);
+			const categoriesSnapshot = await getDocs(q);
 			const categoriesList = categoriesSnapshot.docs.map(doc => {
-				const { name } = doc.data();
-				return { id: doc.id, name };
+				const { name, user_id } = doc.data();
+				return { id: doc.id, name, user_id };
 			});
 			setCategories(categoriesList);
 		};
@@ -32,27 +39,33 @@ const CategoryList = (props: Props) => {
 
 		if (newCategoryRef.current?.value === '') return;
 		const name = newCategoryRef.current?.value!;
+		const category: Partial<ICategory> = {
+			name,
+			user_id: user.uid
+		};
 
 		try {
-			const docRef = await addDoc(collection(db, 'categories'), {
-				name
-			});
-			const newCategory: ICategory = { id: docRef.id, name };
+			const docRef = await addDoc(collection(db, 'categories'), category);
+			const newCategory: ICategory = {
+				id: docRef.id,
+				...category
+			} as ICategory;
 			setCategories(prev => [...prev, newCategory]);
 		} catch (err) {
 			console.error('Error adding document: ', err);
 		}
-
 		newCategoryRef.current!.value = '';
 	};
 
 	const { setCurrentCtg } = props;
 	const categoriesColor: string[] = [
 		'#391256',
-		'#0f4985',
+		'#206cbd',
 		'#44961d',
-		'#1f1cc4'
+		'#aa1f93'
 	];
+
+	const chooseBgc = useCallback(index => index % 4, []);
 
 	return (
 		<section id='categories' className={styles.categories}>
@@ -80,14 +93,16 @@ const CategoryList = (props: Props) => {
 					{...{ id: '0', name: 'all', backgroundColor: '#f6c90e' }}
 				/>
 				{categories &&
-					categories.map((category, index) => (
-						<Category
-							setCurrentCtg={setCurrentCtg}
-							key={category.id}
-							backgroundColor={categoriesColor[index]}
-							{...category}
-						/>
-					))}
+					categories.map((category, index) => {
+						return (
+							<Category
+								setCurrentCtg={setCurrentCtg}
+								key={category.id}
+								backgroundColor={categoriesColor[chooseBgc(index)]}
+								{...category}
+							/>
+						);
+					})}
 			</div>
 		</section>
 	);

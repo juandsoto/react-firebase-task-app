@@ -3,7 +3,7 @@ import ITodo from '../../interfaces/todo.interface';
 import { useCallback } from 'react';
 
 const Todo = (props: ITodo) => {
-	const { id, category, title, status } = props;
+	const { id, category_id, title, status } = props;
 
 	const todoProgress: string[] = ['pending', 'started', 'completed'];
 

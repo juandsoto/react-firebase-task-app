@@ -57,13 +57,26 @@
 	position: absolute;
 	right: 0;
 	top: 125%;
-	width: auto;
+	width: 18rem;
+	box-shadow: var(--box-shadow);
+	font-size: 12px;
 	display: flex;
+	gap: 0.5rem;
 	flex-direction: column;
 	padding: 0.5rem 0.5rem;
-	color: #fff;
-	background-color: var(--gray-color);
+	color: var(--text-color);
+	background-color: var(--main-bg-color);
 	z-index: 999;
+	padding: 1rem;
+}
+
+.profileInfo > p:nth-child(2) {
+	word-break: break-all;
+}
+.logout {
+	padding: 1rem 2rem;
+	background-color: var(--yellow-color);
+	color: black;
 }
 
 .profile > img {
