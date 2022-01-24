@@ -6,11 +6,11 @@ export default interface User {
 	isAnonymous: boolean;
 	photoURL: string;
 	providerData: ProviderDatum[];
-	stsTokenManager: StsTokenManager;
-	createdAt: string;
-	lastLoginAt: string;
-	apiKey: string;
-	appName: string;
+	stsTokenManager?: StsTokenManager;
+	createdAt?: string;
+	lastLoginAt?: string;
+	apiKey?: string;
+	appName?: string;
 }
 
 interface ProviderDatum {

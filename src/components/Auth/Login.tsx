@@ -4,6 +4,7 @@ import styles from '../../styles/Login.module.css';
 import logo from '../../assets/logo.svg';
 import { auth, provider } from '../../config/firebase';
 import { useAuth } from '../../context/AuthProvider';
+import User from '../../interfaces/user.interface';
 
 const Login = () => {
 	const { setUser } = useAuth();
@@ -15,7 +16,7 @@ const Login = () => {
 				console.log(result);
 				const credential = GoogleAuthProvider.credentialFromResult(result);
 				const token = credential!.accessToken;
-				setUser(result.user);
+				setUser(result.user as User);
 			})
 			.catch(console.log);
 	};
