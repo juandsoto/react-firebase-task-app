@@ -12,3 +12,27 @@
 .categoryList::-webkit-scrollbar {
 	display: none;
 }
+.addCategoryContainer {
+	max-width: 500px;
+	display: flex;
+	justify-content: space-between;
+	margin: var(--margin);
+}
+.addCategory {
+	background-color: var(--yellow-color);
+	padding: var(--padding);
+	color: black;
+	font-size: 1rem;
+	border-end-end-radius: 20px;
+}
+
+.input {
+	flex: 1;
+	padding: var(--padding);
+	border: none;
+	outline: none;
+	background-color: transparent;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+	color: var(--text-color);
+	font-size: 1rem;
+}

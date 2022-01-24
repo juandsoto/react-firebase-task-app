@@ -1,9 +1,12 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { collection, addDoc, getDocs } from 'firebase/firestore';
 import { v4 as uuid } from 'uuid';
 
 import Todo from './Todo';
-import { todos as todoList } from '../../assets/data';
 import styles from '../../styles/TodoList.module.css';
+
+import db from '../../config/firebase';
+import ITodo from '../../interfaces/todo.interface';
 
 interface Props {
 	currentCtg: string;
@@ -12,30 +15,51 @@ interface Props {
 const TodoList = (props: Props) => {
 	const { currentCtg } = props;
 
-	const [todos, setTodos] = useState(todoList);
+	const [todos, setTodos] = useState<ITodo[]>([]);
 	const [filter, setFilter] = useState('all');
 	const formRef = useRef<HTMLFormElement>(null);
 	const newTodoRef = useRef<HTMLInputElement>(null);
+
+	useEffect(() => {
+		const getTodos = async () => {
+			const todosSnapshot = await getDocs(collection(db, 'tasks'));
+			const todoList: ITodo[] = todosSnapshot.docs.map(doc => {
+				const { title, category, status } = doc.data();
+				return { id: doc.id, title, category, status };
+			});
+			setTodos(todoList);
+		};
+		getTodos();
+	}, []);
 
 	const changeFilter = (e: React.ChangeEvent<HTMLSelectElement>) => {
 		setFilter(e.target.value);
 	};
 
-	const addTodo = (e: React.FormEvent<HTMLFormElement>) => {
+	const addTodo = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
 		if (newTodoRef.current?.value === '') return;
-
 		const title = newTodoRef.current?.value!;
-		setTodos(prev => [
-			...prev,
-			{
-				id: uuid(),
+
+		try {
+			const docRef = await addDoc(collection(db, 'tasks'), {
 				title,
 				category: currentCtg,
 				status: 'pending'
-			}
-		]);
+			});
+			const newTodo: ITodo = {
+				id: docRef.id,
+				title,
+				category: currentCtg,
+				status: 'pending'
+			};
+			setTodos(prev => [...prev, newTodo]);
+			console.log('Document written: ', docRef);
+		} catch (err) {
+			console.error('Error adding document: ', err);
+		}
+
 		newTodoRef.current!.value = '';
 	};
 
@@ -75,12 +99,13 @@ const TodoList = (props: Props) => {
 				</form>
 			)}
 			<div className={styles.todoList}>
-				{todos
-					.filter(todo => todo.category === currentCtg || currentCtg === '0')
-					.filter(todo => todo.status === filter || filter === 'all')
-					.map(todo => {
-						return <Todo key={todo.id} {...todo}></Todo>;
-					})}
+				{todos &&
+					todos
+						.filter(todo => todo.category === currentCtg || currentCtg === '0')
+						.filter(todo => todo.status === filter || filter === 'all')
+						.map(todo => {
+							return <Todo key={todo.id} {...todo}></Todo>;
+						})}
 			</div>
 		</section>
 	);

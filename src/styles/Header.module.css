@@ -57,7 +57,7 @@
 	position: absolute;
 	right: 0;
 	top: 125%;
-	width: 16rem;
+	width: auto;
 	display: flex;
 	flex-direction: column;
 	padding: 0.5rem 0.5rem;
