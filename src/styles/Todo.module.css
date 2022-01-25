@@ -11,16 +11,27 @@
 	justify-content: space-between;
 	align-items: center;
 	gap: var(--gap);
-	min-height: 75px;
+	min-height: 80px;
 	padding: var(--padding);
 	box-shadow: var(--box-shadow);
 	background-color: var(--main-bg-color);
 	z-index: 9;
 }
 
-.title {
+.titleWrapper {
+	display: flex;
 	flex: 4;
+	gap: 6px;
 	align-self: flex-start;
+}
+.title {
+	border: none;
+	outline: none;
+	background: transparent;
+	color: inherit;
+	font: inherit;
+	padding-bottom: 4px;
+	border-bottom: 1px solid var(--text-color);
 	word-break: normal;
 }
 
@@ -28,16 +39,16 @@
 	position: relative;
 	flex: 1;
 	align-self: flex-end;
-
 	background-color: transparent;
 	color: white;
 	border-radius: 20px;
 	padding: 4px 10px;
 	text-shadow: 1px 1px 8px black;
+	cursor: pointer;
 }
 
 .status::before {
-	content: '+';
+	content: '';
 	position: absolute;
 	width: 25px;
 	height: 25px;

@@ -45,7 +45,7 @@ const DEFAULT_USER = {
 };
 
 export const AuthProvider = ({ children }: Props) => {
-	const [user, setUser] = useState<User | null>(null);
+	const [user, setUser] = useState<User | null>(DEFAULT_USER);
 	return (
 		<AuthContext.Provider value={{ user: user!, setUser }}>
 			{children}

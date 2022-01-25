@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import { collection, addDoc, getDocs, query, where } from 'firebase/firestore';
-import { v4 as uuid } from 'uuid';
 
 import Todo from './Todo';
 import styles from '../../styles/TodoList.module.css';
@@ -38,6 +37,10 @@ const TodoList = (props: Props) => {
 		};
 		getTodos();
 	}, []);
+
+	const deleteTodo = (id: string) => {
+		setTodos(prev => prev.filter(todo => id !== todo.id));
+	};
 
 	const changeFilter = (e: React.ChangeEvent<HTMLSelectElement>) => {
 		setFilter(e.target.value);
@@ -112,7 +115,9 @@ const TodoList = (props: Props) => {
 						)
 						.filter(todo => todo.status === filter || filter === 'all')
 						.map(todo => {
-							return <Todo key={todo.id} {...todo}></Todo>;
+							return (
+								<Todo key={todo.id} {...todo} deleteTodo={deleteTodo}></Todo>
+							);
 						})}
 			</div>
 		</section>
