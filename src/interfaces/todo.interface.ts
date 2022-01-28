@@ -1,3 +1,5 @@
+import { FieldValue } from 'firebase/firestore';
+
 export default interface ITodo {
 	id: string;
 	title: string;
@@ -5,4 +7,5 @@ export default interface ITodo {
 	status: 'pending' | 'started' | 'completed';
 	user_id: string;
 	timestamp: Date;
+	// timestamp: FieldValue;
 }

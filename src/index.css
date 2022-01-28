@@ -10,7 +10,6 @@
 
 :root {
 	--main-bg-color: #f6f7f9;
-	--gray-color: #3a4750;
 	--yellow-color: #f6c90e;
 	--text-color: #252c3e;
 	--margin: 10px;
@@ -37,7 +36,7 @@ h2 {
 	position: relative;
 	color: var(--yellow-color);
 	margin: var(--margin);
-	text-shadow: 1px 1px 4px black;
+	text-shadow: 2px 2px 2px black;
 }
 
 h2::before {
@@ -52,4 +51,11 @@ h2::before {
 
 section {
 	margin: var(--margin) 0;
+	overflow-x: hidden;
+}
+
+@media screen and (max-width: 480px) {
+	body {
+		font-size: 14px;
+	}
 }

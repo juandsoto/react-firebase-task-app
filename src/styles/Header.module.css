@@ -37,7 +37,7 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	gap: var(--gap);
+	gap: calc(var(--gap) * 2);
 }
 
 .themeMode,
@@ -84,4 +84,10 @@
 	object-fit: cover;
 	object-position: center;
 	border-radius: 50px;
+}
+
+@media screen and (max-width: 480px) {
+	.logo > h1 {
+		font-size: 1rem;
+	}
 }

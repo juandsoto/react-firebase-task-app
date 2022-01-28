@@ -1,5 +1,5 @@
 import styles from '../../styles/CategoryList.module.css';
-
+import { v4 as uuid } from 'uuid';
 import Category from './Category';
 import { useEffect, useRef, useState, useCallback } from 'react';
 import db from '../../config/firebase';
@@ -12,6 +12,7 @@ interface Props {
 }
 
 const CategoryList = (props: Props) => {
+	const { setCurrentCtg } = props;
 	const [categories, setCategories] = useState<ICategory[]>([]);
 	const formRef = useRef<HTMLFormElement>(null);
 	const newCategoryRef = useRef<HTMLInputElement>(null);
@@ -45,19 +46,23 @@ const CategoryList = (props: Props) => {
 		};
 
 		try {
-			const docRef = await addDoc(collection(db, 'categories'), category);
-			const newCategory: ICategory = {
-				id: docRef.id,
-				...category
-			} as ICategory;
-			setCategories(prev => [...prev, newCategory]);
+			const categoryRef = await addDoc(collection(db, 'categories'), category);
+			setCategories(prev => [
+				...prev,
+				{ id: categoryRef.id, ...category } as ICategory
+			]);
+			newCategoryRef.current!.value = '';
+			setCurrentCtg(categoryRef.id);
+			console.log('category created');
 		} catch (err) {
 			console.error('Error adding document: ', err);
 		}
-		newCategoryRef.current!.value = '';
 	};
 
-	const { setCurrentCtg } = props;
+	const deleteCategory = (id: string) => {
+		setCategories(prev => prev.filter(ctg => ctg.id !== id));
+	};
+
 	const categoriesColor: string[] = [
 		'#391256',
 		'#206cbd',
@@ -87,23 +92,30 @@ const CategoryList = (props: Props) => {
 					Add
 				</button>
 			</form>
-			<div className={styles.categoryList}>
-				<Category
-					setCurrentCtg={setCurrentCtg}
-					{...{ id: '0', name: 'all', backgroundColor: '#f6c90e' }}
-				/>
-				{categories &&
-					categories.map((category, index) => {
-						return (
-							<Category
-								setCurrentCtg={setCurrentCtg}
-								key={category.id}
-								backgroundColor={categoriesColor[chooseBgc(index)]}
-								{...category}
-							/>
-						);
-					})}
-			</div>
+			{!categories.length ? (
+				<div className={styles.start}>
+					<h3>Start by creating a category!</h3>
+				</div>
+			) : (
+				<div className={styles.categoryList}>
+					<Category
+						setCurrentCtg={setCurrentCtg}
+						{...{ id: '0', name: 'all', backgroundColor: '#f6c90e' }}
+					/>
+					{categories &&
+						categories.map((category, index) => {
+							return (
+								<Category
+									deleteCategory={deleteCategory}
+									setCurrentCtg={setCurrentCtg}
+									key={index}
+									backgroundColor={categoriesColor[chooseBgc(index)]}
+									{...category}
+								/>
+							);
+						})}
+				</div>
+			)}
 		</section>
 	);
 };

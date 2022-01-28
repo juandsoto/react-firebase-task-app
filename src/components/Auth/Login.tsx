@@ -1,4 +1,9 @@
-import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import {
+	GoogleAuthProvider,
+	inMemoryPersistence,
+	setPersistence,
+	signInWithPopup
+} from 'firebase/auth';
 
 import styles from '../../styles/Login.module.css';
 import logo from '../../assets/logo.svg';
@@ -10,6 +15,8 @@ const Login = () => {
 	const { setUser } = useAuth();
 
 	const onSignIn = () => {
+		// setPersistence(auth, inMemoryPersistence)
+		// .then(() =>
 		signInWithPopup(auth, provider)
 			.then(result => {
 				// This gives you a Google Access Token. You can use it to access the Google API.
@@ -19,6 +26,8 @@ const Login = () => {
 				setUser(result.user as User);
 			})
 			.catch(console.log);
+		// )
+		// .catch(console.log);
 	};
 
 	return (

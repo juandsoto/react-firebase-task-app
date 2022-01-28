@@ -7,7 +7,7 @@ import Login from './components/Auth/Login';
 import { useAuth } from './context/AuthProvider';
 const App = () => {
 	const [darkMode, setDarkMode] = useState(true);
-	const [currentCtg, setCurrentCtg] = useState('0');
+	const [currentCtg, setCurrentCtg] = useState<string>('');
 
 	const { user } = useAuth();
 

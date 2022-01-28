@@ -1,5 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
-import { collection, addDoc, getDocs, query, where } from 'firebase/firestore';
+import {
+	collection,
+	addDoc,
+	getDocs,
+	query,
+	where,
+	serverTimestamp,
+	orderBy
+} from 'firebase/firestore';
+import { v4 as uuid } from 'uuid';
 
 import Todo from './Todo';
 import styles from '../../styles/TodoList.module.css';
@@ -26,13 +35,13 @@ const TodoList = (props: Props) => {
 		const getTodos = async () => {
 			const q = query(
 				collection(db, 'tasks'),
-				where('user_id', '==', user.uid)
+				where('user_id', '==', user.uid),
+				orderBy('timestamp', 'desc')
 			);
 			const todosSnapshot = await getDocs(q);
-			const todoList: ITodo[] = todosSnapshot.docs.map(doc => {
-				const { title, category_id, status, user_id, timestamp } = doc.data();
-				return { id: doc.id, title, category_id, status, user_id, timestamp };
-			});
+			const todoList: ITodo[] = todosSnapshot.docs.map(
+				doc => ({ id: doc.id, ...doc.data() } as ITodo)
+			);
 			setTodos(todoList);
 		};
 		getTodos();
@@ -60,17 +69,16 @@ const TodoList = (props: Props) => {
 		};
 
 		try {
-			const docRef = await addDoc(collection(db, 'tasks'), todo);
-			const newTodo: ITodo = {
-				id: docRef.id,
-				...todo
-			} as ITodo;
-			setTodos(prev => [...prev, newTodo]);
+			const todoRef = await addDoc(collection(db, 'tasks'), todo);
+			setTodos(prev => [...prev, { id: todoRef.id, ...todo } as ITodo]);
+			newTodoRef.current!.value = '';
+			console.log('todo created');
 		} catch (err) {
 			console.error('Error adding document: ', err);
 		}
-		newTodoRef.current!.value = '';
 	};
+
+	if (!currentCtg) return null;
 
 	return (
 		<section id='todos'>
@@ -114,9 +122,9 @@ const TodoList = (props: Props) => {
 							todo => todo.category_id === currentCtg || currentCtg === '0'
 						)
 						.filter(todo => todo.status === filter || filter === 'all')
-						.map(todo => {
+						.map((todo, index) => {
 							return (
-								<Todo key={todo.id} {...todo} deleteTodo={deleteTodo}></Todo>
+								<Todo key={index} {...todo} deleteTodo={deleteTodo}></Todo>
 							);
 						})}
 			</div>

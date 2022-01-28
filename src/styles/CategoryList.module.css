@@ -9,6 +9,11 @@
 	cursor: grab;
 }
 
+.start {
+	text-align: center;
+	text-shadow: 2px 2px 2px var(--yellow-color);
+}
+
 .categoryList::-webkit-scrollbar {
 	display: none;
 }
@@ -32,6 +37,7 @@
 	border: none;
 	outline: none;
 	background-color: transparent;
+	overflow-x: hidden;
 	border-bottom: 1px solid rgba(0, 0, 0, 0.5);
 	color: var(--text-color);
 	font-size: 1rem;

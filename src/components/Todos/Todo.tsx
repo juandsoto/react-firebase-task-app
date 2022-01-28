@@ -1,18 +1,18 @@
 import { useCallback, useState } from 'react';
 import { doc, updateDoc, deleteDoc } from 'firebase/firestore';
-import db from '../../config/firebase';
-
 import EditIcon from '@mui/icons-material/Edit';
+import { Delete } from '@mui/icons-material';
+import db from '../../config/firebase';
 import styles from '../../styles/Todo.module.css';
 import ITodo from '../../interfaces/todo.interface';
+import moment from 'moment';
 
 interface Props extends ITodo {
 	deleteTodo: (id: string) => void;
 }
 
 const Todo = (props: Props) => {
-	const { id, category_id, title, status, deleteTodo } = props;
-
+	const { id, category_id, timestamp, title, status, deleteTodo } = props;
 	const todoProgress: string[] = ['pending', 'started', 'completed'];
 
 	const [newTitle, setNewTitle] = useState(title);
@@ -46,8 +46,8 @@ const Todo = (props: Props) => {
 	};
 
 	const deleteT = async () => {
-		deleteTodo(id);
 		const todoRef = doc(db, 'tasks', id);
+		deleteTodo(id);
 		await deleteDoc(todoRef);
 		console.log('todo deleted');
 	};
@@ -71,6 +71,10 @@ const Todo = (props: Props) => {
 						onBlur={() => updateTitle()}
 					/>
 				</div>
+				<div className={styles.timestamp}>
+					{/*TODO: change new Date for timestamp*/}
+					{moment(new Date()).format('MMM Do')}
+				</div>
 				<button
 					onClick={() => updateStatus()}
 					className={styles.status}
@@ -81,7 +85,9 @@ const Todo = (props: Props) => {
 					{newStatus}
 				</button>
 			</div>
-			<button onClick={deleteT} className={styles.trash}></button>
+			<button onClick={deleteT} className={styles.trash}>
+				<Delete htmlColor='#000000' fontSize='medium' />
+			</button>
 		</div>
 	);
 };

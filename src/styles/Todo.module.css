@@ -1,11 +1,11 @@
 .wrapper {
-	flex: 1;
+	flex: 20%;
 	display: flex;
-	flex-basis: 350px;
 	align-items: center;
 }
 
 .todo {
+	position: relative;
 	flex: 1;
 	display: flex;
 	justify-content: space-between;
@@ -25,6 +25,7 @@
 	align-self: flex-start;
 }
 .title {
+	width: 150px;
 	border: none;
 	outline: none;
 	background: transparent;
@@ -60,7 +61,10 @@
 }
 
 .trash {
-	background: #c01616 url(../assets/trash.svg) no-repeat center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: #c01616;
 	width: 70px;
 	height: 70px;
 	border-radius: 50px;
@@ -71,7 +75,15 @@
 	cursor: pointer;
 }
 
-@media screen and (max-width: 390px) {
+.timestamp {
+	position: absolute;
+	left: var(--padding);
+	bottom: var(--padding);
+	color: var(--text-color);
+	text-shadow: 1px 1px 4px var(--yellow-color);
+}
+
+@media screen and (max-width: 480px) {
 	.wrapper {
 		flex: 100%;
 	}
